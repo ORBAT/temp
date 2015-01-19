@@ -45,10 +45,12 @@ func toRow(i int64) string {
 
 func init() {
 
-	kafkaAddr = os.Getenv("KAFKA_ADDR")
+	maybeAddr := os.Getenv("KAFKA_ADDR")
 
-	if len(kafkaAddr) == 0 {
-		kafkaAddr = "localhost:9092"
+	if len(maybeAddr) == 0 {
+		kafkaAddr = []string{"localhost:9092"}
+	} else {
+		kafkaAddr = []string{maybeAddr}
 	}
 
 	fmt.Println("kafka addr", kafkaAddr)
