@@ -27,7 +27,7 @@ func (d *DelimitedWriter) Write(p []byte) (n int, err error) {
 	return
 }
 
-var kafkaAddr = []string{"localhost:9092"}
+var kafkaAddr []string
 
 var delay time.Duration
 
@@ -44,6 +44,15 @@ func toRow(i int64) string {
 }
 
 func init() {
+
+	kafkaAddr = os.Getenv("KAFKA_ADDR")
+
+	if len(kafkaAddr) == 0 {
+		kafkaAddr = "localhost:9092"
+	}
+
+	fmt.Println("kafka addr", kafkaAddr)
+
 	initial, err := strconv.Atoi(os.Args[3])
 	if err != nil {
 		initial = 0
